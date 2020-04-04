@@ -9,5 +9,5 @@ fi
 
 echo " Requests Code"
 cat $1 | cut -d '"' -f3 | cut -d ' ' -f2 | sort | uniq -c | sort -rn
-total=`cat access.log | cut -d '"' -f3 |wc -l`
+total=`cat $1 | cut -d '"' -f3 |wc -l`
 echo "Total number of request: $total"
