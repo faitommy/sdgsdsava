@@ -1,0 +1,13 @@
+#!/bin/sh
+
+if [ -z $1 ]; then
+  echo "Please provide access.log"
+  exit 1
+fi
+
+
+
+echo " Requests Code"
+cat $1 | cut -d '"' -f3 | cut -d ' ' -f2 | sort | uniq -c | sort -rn
+total=`cat access.log | cut -d '"' -f3 |wc -l`
+echo "Total number of request: $total"

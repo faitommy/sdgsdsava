@@ -1,0 +1,34 @@
+version: '3.7'
+
+services:
+  redis:
+    image: redis 
+    ports:
+      - 6379:6379
+
+  postgres:
+    image: postgres:latest
+    restart: always
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - 5432:5432
+
+  shortenurl:
+    build: ./offsitetest
+    ports:
+      - 8080
+    depends_on:
+      - redis
+      - postgres
+  
+  lb:
+    image: dockercloud/haproxy
+    ports:
+      - 8080:80
+    links:
+      - shortenurl
+    volumes:
+        - /var/run/docker.sock:/var/run/docker.sock 

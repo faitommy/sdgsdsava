@@ -1,0 +1,13 @@
+#!/bin/sh
+
+if [ -z $1 ]; then
+  echo "Please provide access.log"
+  exit 1
+fi
+
+
+found=`cat $1|awk '{ print $1 }'  | awk '{  system("geoiplookup " $1 ) }' | awk -F, '{print $2}' | sort  | uniq -c | sort -n | tail -1`
+
+total=`echo $found | awk '{print $1}'`
+country=`echo $found | awk '{$1=""; print $0}'` 
+echo "Most requests originating from $country with total number of request $total"

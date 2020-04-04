@@ -1,0 +1,14 @@
+#!/bin/sh
+
+if [ -z $1 ]; then
+  echo "Please provide access.log"
+  exit 1
+fi
+
+
+echo "Top 10 hosts most requests from 2019-06-10 00:00:00 to 2019-06-19 23:59:59"
+echo "   count   host"
+egrep "1[0-9]/Jun/2019:[0-2][0-3]:[0-5][0-9]:[0-5][0-9]" $1 | awk '{print $1}' | sort| uniq -c | sort -nr | head -10
+
+
+

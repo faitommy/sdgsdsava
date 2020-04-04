@@ -1,0 +1,27 @@
+#!/bin/sh
+
+
+if [ -z "$1" ]; then
+  echo "Running Instances List"
+  aws ec2 describe-instances --filters 'Name=tag:Name,Values=*' "Name=instance-state-name,Values=running"  --output text --query 'Reservations[*].Instances[*].Tags[*].Value'
+  exit 1
+fi
+
+
+
+name=$1
+
+if ! [ -x "$(command -v aws)" ]; then
+  echo 'Error: AWS Cli is not installed.' 
+  exit 1
+fi
+
+publicIP=`aws ec2 describe-instances --filters "Name=tag:Name,Values=$name" --query 'Reservations[*].Instances[].PublicIpAddress' --output text`
+
+if ! [ -z $publicIP ]; then
+  echo "ssh ec2-user@$publicIP"
+#  clear
+  ssh ec2-user@$publicIP
+else 
+  echo "Host not found"
+fi
