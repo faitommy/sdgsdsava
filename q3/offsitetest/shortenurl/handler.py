@@ -68,8 +68,8 @@ class Handler():
     
         start = time.time()
         value=['1',start]
-        redis_set(ip,value)
-        vaule=redis_get(ip=ip)
+        Handler.redis_set(ip,value)
+        vaule=Handler.redis_get(ip=ip)
         return vaule
 
 
