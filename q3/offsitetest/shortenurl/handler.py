@@ -2,6 +2,7 @@ import hashlib
 import logging
 import random
 import redis
+import time
 
 from shortenurl.models import Url
 
@@ -55,6 +56,18 @@ class Handler():
             return None
 
         return url.originalurl
+        
+    @staticmethod
+    def ratelimit(ip)
+        start = time.time()
+        value=['1',start]
+        redis_set(ip,value)
+        
+     @staticmethod   
+    def checkRate(ip)
+        vaule=redis_get(ip=ip)
+        return vaule
+
 
     @staticmethod
     def get_full_url(request,path):
