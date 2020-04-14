@@ -63,7 +63,7 @@ class Handler():
         value=['1',start]
         redis_set(ip,value)
         
-     @staticmethod   
+    @staticmethod   
     def checkRate(ip):
     
         start = time.time()
