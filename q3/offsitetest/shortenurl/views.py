@@ -29,7 +29,7 @@ class UrlViewSet(viewsets.ModelViewSet):
     def shortenurl(request, **kwargs):
         client_ip = request.environ.get('REMOTE_ADDR')
         print(client_ip)
-        value=handler.checkRate(client_ip)
+        value=Handler.checkRate(client_ip)
         print(value)
         json_body = json.loads(request.body)
         originalurl=json_body['url'].strip()
