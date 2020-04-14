@@ -57,20 +57,13 @@ class Handler():
 
         return url.originalurl
         
-    @staticmethod
-    def ratelimit(ip):
-        start = time.time()
-        value=['1',start]
-        redis_set(ip,value)
         
     @staticmethod   
     def checkRate(ip):
     
         start = time.time()
-        value=['1',start]
-        Handler.redis_set(ip,value)
-        vaule=Handler.redis_get(ip=ip)
-        return vaule
+        redis.lpush(ip,'1',start)
+        return redis.llen(ip)
 
 
     @staticmethod
