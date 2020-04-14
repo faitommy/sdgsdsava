@@ -17,6 +17,10 @@ class UrlViewSet(viewsets.ModelViewSet):
     queryset = Url.objects.all()
     serializer_class = UrlSerializer
     parser_classes = (JSONParser,)
+    
+    def checkIP(request, **kwargs):
+        client_ip = request.environ.get('REMOTE_ADDR')
+        return client_ip
 
     def getorgurl(request, **kwargs):
         path=request.path.replace("/","")
@@ -26,6 +30,8 @@ class UrlViewSet(viewsets.ModelViewSet):
         return redirect(originalurl)
 
     def shortenurl(request, **kwargs):
+        ip=checkIP(request)
+        print(ip)
         json_body = json.loads(request.body)
         originalurl=json_body['url'].strip()
         path=Handler.short_url(originalurl)
