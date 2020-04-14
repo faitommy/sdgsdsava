@@ -58,13 +58,13 @@ class Handler():
         return url.originalurl
         
     @staticmethod
-    def ratelimit(ip)
+    def ratelimit(ip):
         start = time.time()
         value=['1',start]
         redis_set(ip,value)
         
      @staticmethod   
-    def checkRate(ip)
+    def checkRate(ip):
     
         start = time.time()
         value=['1',start]
