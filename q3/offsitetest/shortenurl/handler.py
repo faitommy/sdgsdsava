@@ -61,8 +61,9 @@ class Handler():
     @staticmethod   
     def checkRate(ip):
     
+        
         start = time.time()
-        redis.lpush(ip,'1',start)
+        //redis.lpush(ip,'1',start)
         return redis.llen(ip)
 
 
