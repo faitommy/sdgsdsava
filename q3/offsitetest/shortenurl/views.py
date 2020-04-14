@@ -29,6 +29,8 @@ class UrlViewSet(viewsets.ModelViewSet):
     def shortenurl(request, **kwargs):
         client_ip = request.environ.get('REMOTE_ADDR')
         print(client_ip)
+        ip = request.remote_addr
+        print(ip)
         json_body = json.loads(request.body)
         originalurl=json_body['url'].strip()
         path=Handler.short_url(originalurl)
