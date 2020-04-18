@@ -19,6 +19,10 @@ class UrlViewSet(viewsets.ModelViewSet):
     parser_classes = (JSONParser,)
 
     def getorgurl(request, **kwargs):
+        client_ip = Handler.get_client_ip(request)
+        value=Handler.checkRate(client_ip)
+        if not value:
+           return HttpResponse(status=429)
         path=request.path.replace("/","")
         originalurl=Handler.get_originalurl(path)
         print(originalurl)
