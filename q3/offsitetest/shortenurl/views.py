@@ -2,7 +2,7 @@
 from rest_framework import viewsets, status
 from rest_framework.parsers import JSONParser
 from rest_framework.permissions import IsAuthenticated
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from django.shortcuts import redirect
 import json
 
@@ -17,7 +17,6 @@ class UrlViewSet(viewsets.ModelViewSet):
     queryset = Url.objects.all()
     serializer_class = UrlSerializer
     parser_classes = (JSONParser,)
-    
 
     def getorgurl(request, **kwargs):
         path=request.path.replace("/","")
@@ -27,10 +26,10 @@ class UrlViewSet(viewsets.ModelViewSet):
         return redirect(originalurl)
 
     def shortenurl(request, **kwargs):
-        client_ip = request.environ.get('REMOTE_ADDR')
-        print(client_ip)
+        client_ip = Handler.get_client_ip(request) 
         value=Handler.checkRate(client_ip)
-        print(value)
+        if not value:
+           return HttpResponse(status=429)
         json_body = json.loads(request.body)
         originalurl=json_body['url'].strip()
         path=Handler.short_url(originalurl)

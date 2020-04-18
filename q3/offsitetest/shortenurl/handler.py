@@ -57,14 +57,28 @@ class Handler():
 
         return url.originalurl
         
+    @staticmethod
+    def get_client_ip(request):
+        x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+        if x_forwarded_for:
+            ip = x_forwarded_for.split(',')[0]
+        else:
+            ip = request.META.get('REMOTE_ADDR')
+        return ip 
         
     @staticmethod   
     def checkRate(ip):
-    
-        
-        start = time.time()
-        //redis.lpush(ip,'1',start)
-        return redis.llen(ip)
+        if redis.llen(ip) == 0:
+            print("First encounter")
+            i = 1
+            redis.lpush(ip,1) 
+            redis.expire(ip,60)
+        else:
+            if redis.llen(ip) == 5:
+                return False
+            else:
+                redis.lpush(ip,1)
+        return True
 
 
     @staticmethod
